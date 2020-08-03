@@ -1,0 +1,1 @@
+{"storage":"container","type":"hcj","detailedtype":"default","author":"a7bb63cb8e9294ff","name":"stock","description":"","date":"2020/8/3 8:47:0","plugins":{"goorm.plugin.hcj":[{}]},"is_user_plugin":false,"author_email":"","author_name":"최수현","ignore_patterns":[],"project_domain":[{"id":"a7bb63cb8e9294ff","url":"stock-ctqzp.run.goorm.io","port":"9090"}],"visibility":1}
