@@ -20,20 +20,22 @@ async function trainModel(X, Y, window_size, n_epochs, learning_rate, n_layers, 
   const ys = tf.tensor2d(Y, [Y.length, 1]).reshape([Y.length, 1]).div(tf.scalar(10));
 
   model.add(tf.layers.dense({units: input_layer_neurons, inputShape: [input_layer_shape]}));
-  model.add(tf.layers.reshape({targetShape: rnn_input_shape}));
+  // model.add(tf.layers.reshape({targetShape: rnn_input_shape}));
 
-  let lstm_cells = [];
-  for (let index = 0; index < n_layers; index++) {
-       lstm_cells.push(tf.layers.lstmCell({units: rnn_output_neurons}));
-  }
+  // let lstm_cells = [];
+  // for (let index = 0; index < n_layers; index++) {
+  //      lstm_cells.push(tf.layers.lstmCell({units: rnn_output_neurons}));
+  // }
 
-  model.add(tf.layers.rnn({
-    cell: lstm_cells,
-    inputShape: rnn_input_shape,
-    returnSequences: false
-  }));
+  // model.add(tf.layers.rnn({
+  //   cell: lstm_cells,
+  //   inputShape: rnn_input_shape,
+  //   returnSequences: false
+  // }));
+	
+  model.add(tf.layers.dense({units: 256, activation: 'relu'}));
 
-  model.add(tf.layers.dense({units: output_layer_neurons, inputShape: [output_layer_shape]}));
+  model.add(tf.layers.dense({units: output_layer_neurons}));
 
   model.compile({
     optimizer: tf.train.adam(learning_rate),
@@ -47,9 +49,9 @@ async function trainModel(X, Y, window_size, n_epochs, learning_rate, n_layers, 
       }
     }
   });
-
-  await model.save('downloads://my-model');	
 	
+  // await model.save('downloads://my-model');
+
   return { model: model, stats: hist };
 }
 
@@ -61,8 +63,9 @@ function makePredictions(X, model)
 
 async function loadModel()
 {
-	const model = await tf.loadLayersModel('http://model-server.domain/download/model.json');
+	const model = await tf.loadModel('https://stock-qjhmp.run.goorm.io/stock/model/my-model.json');
 	return model;
+
 }
 
 
